@@ -2,12 +2,10 @@
 
 import argparse
 import importlib
-import models
 import numpy as np
 import tensorflow as tf
-from matplotlib import pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from open3d import *
+import matplotlib.pyplot as plt
+import open3d as o3d
 
 
 def plot_pcd(ax, pcd):
@@ -40,7 +38,7 @@ if __name__ == '__main__':
     saver = tf.train.Saver()
     saver.restore(sess, args.checkpoint)
 
-    partial = read_point_cloud(args.input_path)
+    partial = o3d.io.read_point_cloud(args.input_path)
     partial = np.array(partial.points)
     complete = sess.run(model.outputs, feed_dict={inputs: [partial], npts: [partial.shape[0]]})[0]
 
