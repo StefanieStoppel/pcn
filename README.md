@@ -23,6 +23,11 @@ If you find our work useful for your research, please cite:
 3. Download trained models from [Google Drive](https://drive.google.com/open?id=1M_lJN14Ac1RtPtEQxNlCV9e8pom3U6Pa).
 
 This code is built using Tensorflow 1.12 with CUDA 9.0 and tested on Ubuntu 16.04 with Python 3.5.
+> - Python 3.6 works for installation of requirements as well. Python 3.7 fails b.c. of pyarrow
+> - Tensorflow==1.12.2 => changed to fixed version in requirements.txt
+> - gcc => set symlinks to version 6, as 7.5 doesn't work with make in pc_distance 
+> (https://askubuntu.com/questions/26498/how-to-choose-the-default-gcc-and-g-version)
+>
 
 #### 2) Demo
 Run `python3 demo.py`. Use `--input_path` option to switch between the input examples in `demo_data`.

@@ -1,8 +1,8 @@
-cuda_inc = /usr/local/cuda-9.0/include/
-cuda_lib = /usr/local/cuda-9.0/lib64/
-nvcc = /usr/local/cuda-9.0/bin/nvcc
-tf_inc = /usr/local/lib/python3.5/dist-packages/tensorflow/include
-tf_lib = /usr/local/lib/python3.5/dist-packages/tensorflow
+cuda_inc = /usr/local/cuda-9.1/include/
+cuda_lib = /usr/local/cuda-9.1/lib64/
+nvcc = /usr/local/cuda-9.1/bin/nvcc
+tf_inc = /home/steffi/dev/CVP/pcn/pcn_env/lib/python3.6/site-packages/tensorflow/include
+tf_lib = /home/steffi/dev/CVP/pcn/pcn_env/lib/python3.6/site-packages/tensorflow
 
 all: tf_nndistance_so.so tf_approxmatch_so.so
 
