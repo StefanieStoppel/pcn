@@ -1,12 +1,12 @@
 # Author: Wentao Yuan (wyuan1@cs.cmu.edu) 05/31/2018
+import os
 
 import Imath
 import OpenEXR
 import argparse
 import array
 import numpy as np
-import os
-from open3d import *
+import open3d as o3d
 
 
 def read_exr(exr_path, height, width):
@@ -54,11 +54,11 @@ if __name__ == '__main__':
             pose_path = os.path.join(args.output_dir, 'pose', model_id, '%d.txt' % i)
 
             depth = read_exr(exr_path, height, width)
-            depth_img = Image(np.uint16(depth * 1000))
-            write_image(os.path.join(depth_dir, '%d.png' % i), depth_img)
+            depth_img = o3d.geometry.Image(np.uint16(depth * 1000))
+            o3d.io.write_image(os.path.join(depth_dir, '%d.png' % i), depth_img)
 
             pose = np.loadtxt(pose_path)
             points = depth2pcd(depth, intrinsics, pose)
-            pcd = PointCloud()
-            pcd.points = Vector3dVector(points)
-            write_point_cloud(os.path.join(pcd_dir, '%d.pcd' % i), pcd)
+            pcd = o3d.geometry.PointCloud()
+            pcd.points = o3d.utility.Vector3dVector(points)
+            o3d.io.write_point_cloud(os.path.join(pcd_dir, '%d.pcd' % i), pcd)

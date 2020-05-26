@@ -6,8 +6,7 @@ import csv
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from mpl_toolkits.mplot3d import Axes3D
-from open3d import *
+import open3d as o3d
 
 
 def bbox2rt(bbox):
@@ -21,18 +20,18 @@ def bbox2rt(bbox):
 
 
 def register(source, target, args):
-    residual = TransformationEstimationPointToPoint()
-    criteria = ICPConvergenceCriteria(max_iteration=args.max_iter)
+    residual = o3d.registration.TransformationEstimationPointToPoint()
+    criteria = o3d.registration.ICPConvergenceCriteria(max_iteration=args.max_iter)
     # Align the centroids of the point clouds
     source_points = np.array(source.points)
     target_points = np.array(target.points)
     source_center = np.mean(source_points, axis=0)
     target_center = np.mean(target_points, axis=0)
-    source = PointCloud()
-    source.points = Vector3dVector(source_points - source_center)
-    target = PointCloud()
-    target.points = Vector3dVector(target_points - target_center)
-    result = registration_icp(source, target, args.max_dist, np.eye(4), residual, criteria)
+    source = o3d.geometry.PointCloud()
+    source.points = o3d.utility.Vector3dVector(source_points - source_center)
+    target = o3d.geometry.PointCloud()
+    target.points = o3d.utility.Vector3dVector(target_points - target_center)
+    result = o3d.registration.registration_icp(source, target, args.max_dist, np.eye(4), residual, criteria)
     source_trans = copy.deepcopy(source)
     source_trans.transform(result.transformation)
     R = result.transformation[:3, :3]
@@ -78,8 +77,8 @@ def track(args):
 
         prev_frame = int(car_ids[0].split('_')[1])
         prev_R, prev_t = bbox2rt(np.loadtxt(os.path.join(args.bbox_dir, '%s.txt' % car_ids[0])))
-        prev_partial = read_point_cloud(os.path.join(args.partial_dir, '%s.pcd' % car_ids[0]))
-        prev_complete = read_point_cloud(os.path.join(args.complete_dir, '%s.pcd' % car_ids[0]))
+        prev_partial = o3d.io.read_point_cloud(os.path.join(args.partial_dir, '%s.pcd' % car_ids[0]))
+        prev_complete = o3d.io.read_point_cloud(os.path.join(args.complete_dir, '%s.pcd' % car_ids[0]))
         for i in range(args.interval, len(car_ids), args.interval):
             n += 1
             frame = int(car_ids[i].split('_')[1])
@@ -89,14 +88,14 @@ def track(args):
             R_gt = np.dot(R, prev_R.T)
             t_gt = t - np.dot(prev_t, R_gt.T)
 
-            partial = read_point_cloud(os.path.join(args.partial_dir, '%s.pcd' % car_ids[i]))
+            partial = o3d.io.read_point_cloud(os.path.join(args.partial_dir, '%s.pcd' % car_ids[i]))
             R_part, t_part, partial_trans, partial_target = register(prev_partial, partial, args)
             r_err_part = rotation_error(R_part, R_gt)
             t_err_part = translation_error(t_part, t_gt)
             total_r_err_part += r_err_part
             total_t_err_part += t_err_part
 
-            complete = read_point_cloud(os.path.join(args.complete_dir, '%s.pcd' % car_ids[i]))
+            complete = o3d.io.read_point_cloud(os.path.join(args.complete_dir, '%s.pcd' % car_ids[i]))
             R_comp, t_comp, complete_trans, complete_target = register(prev_complete, complete, args)
             r_err_comp = rotation_error(R_comp, R_gt)
             t_err_comp = translation_error(t_comp, t_gt)
