@@ -1,0 +1,23 @@
+{
+  "train": {
+    "011_banana": 19473,
+    "021_bleach_cleanser": 14471,
+    "035_power_drill": 13268,
+    "037_scissors": 15256,
+    "total": 62468
+  },
+  "val": {
+    "011_banana": 4836,
+    "021_bleach_cleanser": 3597,
+    "035_power_drill": 3326,
+    "037_scissors": 3867,
+    "total": 15626
+  },
+  "test": {
+    "011_banana": 495,
+    "021_bleach_cleanser": 1544,
+    "035_power_drill": 1217,
+    "037_scissors": 360,
+    "total": 3616
+  }
+}

@@ -3,4 +3,3 @@
 # except the following files
 !.gitignore
 !README.md
-!ycb_video/*
