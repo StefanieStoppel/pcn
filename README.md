@@ -48,6 +48,19 @@ Run `python3 demo.py`. Use `--input_path` option to switch between the input exa
 1. Download training (`train.lmdb`, `train.lmdb-lock`) and validation (`valid.lmdb`, `valid.lmdb-lock`) data from `shapenet` or `shapenet_car` directory on [Google Drive](https://drive.google.com/open?id=1M_lJN14Ac1RtPtEQxNlCV9e8pom3U6Pa). Note that the training data for all 8 categories in `shapenet` takes up 49G of disk space. The training data for only the car category takes 9G instead.
 2. Run `python3 train.py`. Type `python3 train.py -h` for more options.
 
+##### 6.1) Training with the YCB Video dataset
+- Preprocess the original data using the ycb-video-preprocessing repo. The output is a directory structure containing all
+point clouds for the class objects specified, structured by video numbers and frames.
+- Create a data.json file from this directory structure. The file holds information about the train / validation / test split.
+- Create data_partition_counts.json which tells you how much data each object has for the splits.
+- Move the files into this repo under /data/ycb_video.
+- Copy the complete point clouds (*.pcd files) from ycb_data_tmp/pc_complete into data/ycb_video/test/complete.
+- Run ycb_util/preprocess_ycb_data.py, passing the path to your data.json (default is data/ycb_video/data.json). 
+The script creates *.list files for training, validation and test in the specified output directory (default is data/ycb_video).
+- Run the lmdb_writer.py for both training and validation data with the flag --use_ycb_data. Make sure you specify the correct paths.
+Use the data/ycb_video directory as base for your *.lmdb outputs (example: --output_path "/path/to/repo/data/ycb_video/train.lmdb")
+
+
 #### 7) Data Generation
 To generate your own data from ShapeNet, first Download [ShapeNetCore.v1](https://shapenet.org). Then, create partial point clouds from depth images (see instructions in `render`) and corresponding ground truths by sampling from CAD models (see instructions in `sample`). Finally, serialize the data using `lmdb_writer.py`.
 

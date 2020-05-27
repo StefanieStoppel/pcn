@@ -1,8 +1,8 @@
 import json
 
 
-def create_list_files_for_data_partitions(input_file="../ycb_data_tmp/data_new.json",
-                                          output_dir="../ycb_data_tmp"):
+def create_list_files_for_data_partitions(input_file="../data/ycb_video/data.json",
+                                          output_dir="../data/ycb_video"):
     """
     Creates train.list, val.list and test.list files from the json files containing the train / val / test split
     of the YCB objects.

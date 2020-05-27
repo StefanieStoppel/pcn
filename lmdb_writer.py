@@ -59,11 +59,11 @@ class YCBPointCloudDataFlow(pcd_df):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--use_ycb_data', dest='use_ycb_data', action='store_true')
-    parser.add_argument('--list_path')
-    parser.add_argument('--num_scans', type=int, default=1)
-    parser.add_argument('--partial_dir')
-    parser.add_argument('--complete_dir')
-    parser.add_argument('--output_path')
+    parser.add_argument('--list_path', help="Path to your *.list file (train.list, valid.list or test.list)")
+    parser.add_argument('--num_scans', type=int, default=1, help="Number of scanes per model. 1 for YCB video data.")
+    parser.add_argument('--partial_dir', help="Directory where the partial point clouds are stored.")
+    parser.add_argument('--complete_dir', help="Directory where the complete point clouds are stored.")
+    parser.add_argument('--output_path', help="Path to the file in which to store the output. (example: /path/to/train.lmdb)")
     args = parser.parse_args()
 
     with open(args.list_path) as file:
