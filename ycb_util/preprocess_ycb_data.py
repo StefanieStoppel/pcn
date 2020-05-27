@@ -3,6 +3,12 @@ import json
 
 def create_list_files_for_data_partitions(input_file="../ycb_data_tmp/data_new.json",
                                           output_dir="../ycb_data_tmp"):
+    """
+    Creates train.list, val.list and test.list files from the json files containing the train / val / test split
+    of the YCB objects.
+    :param input_file: .json file path
+    :param output_dir: directory to save output .list files to
+    """
     with open(input_file, "r") as json_data:
         data = json.load(json_data)
         for data_partition_key in data.keys():
