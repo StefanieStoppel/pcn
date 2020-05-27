@@ -57,6 +57,7 @@ point clouds for the class objects specified, structured by video numbers and fr
 - Copy the complete point clouds (*.pcd files) from ycb_data_tmp/pc_complete into data/ycb_video/test/complete.
 - Run ycb_util/preprocess_ycb_data.py, passing the path to your data.json (default is data/ycb_video/data.json). 
 The script creates *.list files for training, validation and test in the specified output directory (default is data/ycb_video).
+Rename the file val.list to valid.list.
 - Run the lmdb_writer.py for both training and validation data with the flag --use_ycb_data. Make sure you specify the correct paths.
 Use the data/ycb_video directory as base for your *.lmdb outputs (example: --output_path "/path/to/repo/data/ycb_video/train.lmdb")
 
