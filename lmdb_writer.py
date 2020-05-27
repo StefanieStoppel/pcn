@@ -49,7 +49,7 @@ class YCBPointCloudDataFlow(pcd_df):
             complete = self.complete_pc_dict[model_name]
             for i in range(self.num_scans):
                 partial = read_pcd(os.path.join(self.partial_dir, f"{model_id}{self.partial_ext}"))
-                yield model_id, partial, complete
+                yield model_id.replace('/', '_'), partial, complete
 
     @staticmethod
     def get_model_name(model_id: str):
