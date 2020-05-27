@@ -1,4 +1,4 @@
-# Author: Wentao Yuan (wyuan1@cs.cmu.edu) 05/31/2018
+# Author: Wentao Yuan (wyuan1@cs.cmu.edu) 05/31/2018, Stefanie Stoppel 05/27/2020
 
 import argparse
 import os
@@ -29,9 +29,9 @@ class YCBPointCloudDataFlow(pcd_df):
         # our model_list for YCB contains all the point cloud files, so always one model per list item
         num_scans = 1
         super().__init__(model_list, num_scans, partial_dir, complete_dir)
-        self.complete_pc_dict = self.get_complete_pc_dict()
         self.partial_ext = partial_ext
         self.complete_ext = complete_ext
+        self.complete_pc_dict = self.get_complete_pc_dict()
 
     def get_complete_pc_dict(self):
         complete_pc_dict = {}
@@ -48,7 +48,7 @@ class YCBPointCloudDataFlow(pcd_df):
                 continue
             complete = self.complete_pc_dict[model_name]
             for i in range(self.num_scans):
-                partial = read_pcd(os.path.join(self.partial_dir, model_id, self.partial_ext))
+                partial = read_pcd(os.path.join(self.partial_dir, f"{model_id}{self.partial_ext}"))
                 yield model_id, partial, complete
 
     @staticmethod
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--use_ycb_data', dest='use_ycb_data', action='store_true')
     parser.add_argument('--list_path')
-    parser.add_argument('--num_scans', type=int)
+    parser.add_argument('--num_scans', type=int, default=1)
     parser.add_argument('--partial_dir')
     parser.add_argument('--complete_dir')
     parser.add_argument('--output_path')
