@@ -25,7 +25,7 @@ class pcd_df(DataFlow):
 
 
 class YCBPointCloudDataFlow(pcd_df):
-    def __init__(self, model_list, partial_dir, complete_dir, partial_ext=".pcd", complete_ext=".xyz"):
+    def __init__(self, model_list, partial_dir, complete_dir, partial_ext=".pcd", complete_ext=".pcd"):
         # our model_list for YCB contains all the point cloud files, so always one model per list item
         num_scans = 1
         super().__init__(model_list, num_scans, partial_dir, complete_dir)
